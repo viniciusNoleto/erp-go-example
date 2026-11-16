@@ -1,0 +1,187 @@
+/*
+ * GoMoney: o único arquivo de CSS do front.
+ *
+ * O visual de cada tela é feito com as classes do Tailwind direto no JSX; os
+ * valores (cores, fontes, raios, sombras, escala de texto, pontos de quebra)
+ * vêm de tailwind.config.mts, que lê src/tokens.ts, o mesmo arquivo do tema do
+ * Mantine. Aqui ficam só:
+ *  - a ordem das camadas e as importações;
+ *  - as animações;
+ *  - o pouco de estilo global (base) e as classes globais do vidro líquido.
+ */
+
+/*
+ * A ordem das camadas: quem vem depois vence. O Mantine fica depois do reset
+ * do Tailwind (senão o reset apagaria os botões e campos dele) e antes das
+ * utilitárias (para que um className do Tailwind sempre ajuste um componente
+ * do Mantine, sem precisar de !important).
+ */
+@layer theme, base, mantine, components, utilities;
+
+@import 'tailwindcss';
+@import '@mantine/core/styles.layer.css';
+@import '@fontsource-variable/ibm-plex-sans/wght.css';
+@import '@fontsource/instrument-serif/400.css';
+
+@config '../../tailwind.config.mts';
+
+/* ---------- animações (viram as classes animate-*) ---------- */
+
+@theme {
+  /* Lançamento recém-chegado: a linha acende em ouro e se apaga. */
+  --animate-fresh: fresh 3.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* Entrada da apresentação. O atraso vem de --i (0, 1, 2…), 80ms por passo. */
+  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 80ms) both;
+
+  @keyframes fresh {
+    0%,
+    30% {
+      background-color: --theme(--color-data-soft inline);
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+  }
+}
+
+/* ---------- base ---------- */
+
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    font-feature-settings: 'ss02';
+  }
+
+  /* Algarismos tabulares em toda tabela: os números se comparam por coluna. */
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------- formulários ---------- */
+
+/*
+ * A grade dos campos de formulário: 12 colunas, e cada campo diz quanto ocupa
+ * (col-span-12, sm:col-span-6…). As colunas da grade nunca mudam; a
+ * responsividade vem só do span de cada campo.
+ */
+@layer components {
+  .form-grid {
+    @apply grid grid-cols-12 gap-4;
+  }
+}
+
+/* ---------- vidro líquido (só na apresentação, /) ---------- */
+
+/*
+ * Classes globais porque o lib/glass.ts e o Backdrop.tsx montam e procuram
+ * esses elementos pelo nome da classe, fora do React.
+ *
+ * O vidro é montado em camadas (ver src/lib/glass.ts):
+ *  - .glass: o tom (um grafite quase transparente, só para o texto ler) e o
+ *    reflexo da borda. Não tem backdrop-filter de propósito: senão os filhos
+ *    só enxergariam o que está dentro dele, e a lente não veria o fundo.
+ *  - .lens, atrás do conteúdo: um desfoque leve e a lente (o filtro SVG que
+ *    amplia o miolo, ondula e entorta forte a borda) em toda a superfície.
+ *  - ::after, por cima de tudo: a luz batendo na espessura do vidro.
+ */
+@layer components {
+  /* Na apresentação o papel é a gravação escura, não o papel claro do app.
+     Fica nesta camada (depois da do Mantine) para vencer o fundo do <body> dele. */
+  body:has(.backdrop) {
+    background-color: --theme(--color-night inline);
+    color-scheme: dark;
+  }
+
+  .backdrop {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background-color: --theme(--color-night inline);
+  }
+
+  .backdrop canvas {
+    position: absolute;
+  }
+
+  .backdrop-field {
+    inset: 0;
+  }
+
+  .backdrop-rosette {
+    transform: translate(-50%, -50%);
+    will-change: transform;
+  }
+
+  .glass {
+    --tint: rgb(18 18 21 / 0.5);
+    --frost: 1.5px;
+    position: relative;
+    isolation: isolate;
+    background: var(--tint);
+    border-radius: 22px;
+  }
+
+  .glass::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.42),
+      inset 1px 0 0 0 rgb(255 255 255 / 0.2),
+      inset -1px 0 0 0 rgb(255 255 255 / 0.12),
+      inset 0 -1px 0 0 rgb(255 255 255 / 0.18),
+      inset 0 -12px 20px -14px rgb(0 0 0 / 0.45),
+      inset 0 10px 22px -16px rgb(255 255 255 / 0.24),
+      inset 0 0 0 0.5px rgb(255 255 255 / 0.1);
+  }
+
+  .glass[data-lens='pill'] {
+    --tint: rgb(18 18 21 / 0.3);
+    --frost: 1px;
+    border-radius: 999px;
+  }
+
+  .lens {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .lens i {
+    position: absolute;
+  }
+
+  .lens-core {
+    inset: 0;
+    /* --lens é posto pelo glass.ts (url do filtro desta superfície). Sem ele,
+       a regra continua válida e vira só o desfoque. */
+    -webkit-backdrop-filter: blur(var(--frost)) var(--lens,) saturate(120%) brightness(1.08);
+    backdrop-filter: blur(var(--frost)) var(--lens,) saturate(120%) brightness(1.08);
+  }
+
+  /* Fora do Chromium não há lente: um vidro fosco comum, mais opaco. */
+  html:not(.lens-on) .glass {
+    --tint: rgb(20 20 23 / 0.68);
+    -webkit-backdrop-filter: blur(26px) saturate(150%);
+    backdrop-filter: blur(26px) saturate(150%);
+  }
+}

@@ -1,0 +1,11 @@
+# Debian (glibc), não Alpine: o node_modules é compartilhado com o host pelo bind mount,
+# e os binários nativos (o SWC do Next, o lightningcss…) precisam servir aos dois.
+FROM node:lts-slim
+
+USER node
+
+WORKDIR /app
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]

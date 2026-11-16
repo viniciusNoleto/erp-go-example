@@ -1,0 +1,12 @@
+node_modules
+dist
+.taste-skill
+.env
+.next
+out
+*.tsbuildinfo
+
+# Vídeo de apresentação (npm run demo:video, no frontend)
+frontend/videos
+frontend/test-results-demo
+frontend/playwright-report
