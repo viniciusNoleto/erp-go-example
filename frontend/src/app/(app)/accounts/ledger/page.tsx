@@ -134,7 +134,7 @@ function AccountLedger() {
               ),
             },
             {
-              content: () => 'Lendo a conta no razão…',
+              content: () => 'Lendo a conta no livro-razão…',
             },
           ]}
         />

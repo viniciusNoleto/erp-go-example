@@ -16,9 +16,9 @@ import (
 	"strconv"
 	"time"
 
-	"razonete/internal/app"
-	"razonete/internal/domain"
-	"razonete/internal/platform/events"
+	"gomoney/internal/app"
+	"gomoney/internal/domain"
+	"gomoney/internal/platform/events"
 )
 
 type Server struct {

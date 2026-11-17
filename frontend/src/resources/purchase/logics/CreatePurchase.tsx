@@ -109,7 +109,7 @@ export function CreatePurchaseLogicComponent({
       submitLabel="Dar entrada"
       busy={createPurchaseIsPending}
       error={createPurchaseError}
-      summary={total > 0 ? `Total de ${moneyFull(total)}` : null}
+      summary={total > 0 ? { label: 'Total', value: moneyFull(total) } : null}
       onSubmit={createPurchase}
     >
       <FormTextInput
@@ -137,7 +137,7 @@ export function CreatePurchaseLogicComponent({
       </Text>
 
       <LedgerPostingPreview
-        title="O que será lançado no razão"
+        title="O que será lançado no livro-razão"
         className="col-span-12"
       >
         <LedgerLegPreview

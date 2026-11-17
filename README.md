@@ -25,7 +25,7 @@ O `make install` cria o `.env` a partir do `.env.example`, constrói as imagens,
 | Apresentação | http://localhost:5180 |
 | Aplicação | http://localhost:5180/overview |
 | API | http://localhost:8088/api/overview |
-| Postgres | `localhost:5433` (usuário, senha e banco: `razonete`) |
+| Postgres | `localhost:5433` (usuário, senha e banco: `gomoney`) |
 | TigerBeetle | `localhost:3001` |
 
 Na primeira subida a API carrega 30 dias de movimento de uma loja fictícia de materiais artísticos (o **Ateliê Pipa**). Para zerar e recarregar:
@@ -56,13 +56,13 @@ O `APP_ENV` do `.env` escolhe o arquivo `docker-compose.{APP_ENV}.yml`:
 
 ### Vídeo de apresentação
 
-`make demo-video` (ou `npm run demo:video` em `frontend/`) grava um teste longo do Playwright que começa na página de apresentação e passa por todas as telas e ações: visão geral, lançamento chegando ao vivo, vendas (com validação, recebimento e recusa por falta de estoque), produto novo, compra com custo médio, pagamento em duas fases, conta nova, despesa, aporte, lançamento manual, recusa do razão, filtros do diário e razonete. Sai em `frontend/videos/apresentacao.mp4` (sem ffmpeg, o `.webm` cru).
+`make demo-video` (ou `npm run demo:video` em `frontend/`) grava um teste longo do Playwright que começa na página de apresentação e passa por todas as telas e ações: visão geral, lançamento chegando ao vivo, vendas (com validação, recebimento e recusa por falta de estoque), produto novo, compra com custo médio, pagamento em duas fases, conta nova, despesa, aporte, lançamento manual, recusa do livro-razão, filtros do diário e razonete. Sai em `frontend/videos/apresentacao.mp4` (sem ffmpeg, o `.webm` cru).
 
 Não encosta nos dados do `make up`: sobe uma stack própria do compose (`gomoney-demo`, API na porta `8099`, sem volumes) com a loja de demonstração recém-carregada e serve o build estático na porta `3200`; no fim, apaga tudo. Precisa de Docker e, no host, de Node e do Chromium do Playwright (`npx playwright install chromium`, uma vez). `DEMO_SKIP_BUILD=1` reaproveita o último `out/`; `DEMO_KEEP_STACK=1` deixa a stack no ar.
 
 ## O que dá para fazer
 
-| Tela | Ação | O que acontece no razão |
+| Tela | Ação | O que acontece no livro-razão |
 | --- | --- | --- |
 | Vendas | Faturar venda | Duas pernas **encadeadas** (ou as duas, ou nenhuma): `D Clientes a receber / C Receita` e `D CMV / C Estoque` |
 | Vendas | Receber | `D Caixa / C Clientes a receber` |
@@ -120,7 +120,7 @@ As dependências apontam sempre para dentro: `domain` não conhece ninguém, `ap
 
 ## Limites conhecidos
 
-- **Dois bancos, uma operação.** Postgres e TigerBeetle não compartilham transação. O razão é chamado por último, com a transação do Postgres aberta; se ele recusar, tudo é desfeito. Resta a janela "o razão aceitou e o commit do Postgres falhou", que em produção se fecha com outbox e reenvio idempotente. Está explicado em `backend/internal/app/sales.go`.
+- **Dois bancos, uma operação.** Postgres e TigerBeetle não compartilham transação. O livro-razão é chamado por último, com a transação do Postgres aberta; se ele recusar, tudo é desfeito. Resta a janela "o livro-razão aceitou e o commit do Postgres falhou", que em produção se fecha com outbox e reenvio idempotente. Está explicado em `backend/internal/app/sales.go`.
 - **Sem login.** É um sistema de uma empresa só, sem usuários nem permissões.
 - **TigerBeetle em modo desenvolvimento**, com uma réplica. Em produção são seis.
 - **Sem impostos, devoluções e estornos.**

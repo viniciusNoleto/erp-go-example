@@ -4,7 +4,7 @@ import type { NextConfig } from 'next';
  * Dois modos:
  *
  *  - `next dev` (o container local): o próprio Next repassa /api para o
- *    backend Go (razonete-api:8080 dentro do compose, via API_URL), então o
+ *    backend Go (gomoney-api:8080 dentro do compose, via API_URL), então o
  *    navegador nunca precisa de CORS nem de URL absoluta.
  *  - `next build` (produção): exportação estática para ./out. Nenhum servidor
  *    Node em produção: o nginx serve os arquivos e repassa /api (ver

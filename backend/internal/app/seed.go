@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"time"
 
-	"razonete/internal/domain"
+	"gomoney/internal/domain"
 )
 
 // SeedDemo carrega 30 dias de movimento de uma loja fictícia de materiais
@@ -15,7 +15,7 @@ import (
 // O interessante aqui: a carga NÃO escreve direto nas tabelas. Ela chama os
 // MESMOS casos de uso da API (CreateSale, SchedulePayment...) com um relógio
 // falso. Assim os dados de demonstração passam por todas as regras de negócio
-// e pelas mesmas travas do razão que os dados reais.
+// e pelas mesmas travas do livro-razão que os dados reais.
 func (s *Service) SeedDemo(ctx context.Context) error {
 	existing, err := s.store.Accounts(ctx)
 	if err != nil {

@@ -5,7 +5,7 @@ import (
 	"sort"
 	"time"
 
-	"razonete/internal/domain"
+	"gomoney/internal/domain"
 )
 
 type AccountInput struct {
@@ -37,7 +37,7 @@ func (s *Service) CreateAccount(ctx context.Context, in AccountInput) (AccountVi
 		if err := r.SaveAccount(ctx, account); err != nil {
 			return err
 		}
-		// time.Time{} é o valor zero de data: "use a hora do razão".
+		// time.Time{} é o valor zero de data: "use a hora do livro-razão".
 		return s.ledger.OpenAccounts(ctx, []domain.Account{account}, time.Time{})
 	})
 	if err != nil {
@@ -107,7 +107,7 @@ func (s *Service) series(ctx context.Context, a domain.Account) ([]SeriesPoint, 
 	for _, h := range history {
 		points = append(points, SeriesPoint{At: h.Timestamp, Cents: int64(h.Balance.Net(a.Type))})
 	}
-	// O razão devolve do mais novo para o mais antigo; o gráfico quer o inverso.
+	// O livro-razão devolve do mais novo para o mais antigo; o gráfico quer o inverso.
 	sort.Slice(points, func(i, j int) bool { return points[i].At.Before(points[j].At) })
 	return points, nil
 }

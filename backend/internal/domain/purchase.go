@@ -35,7 +35,7 @@ type Purchase struct {
 	Supplier  string
 	Items     []PurchaseItem
 	Status    PurchaseStatus
-	PendingID string // id da reserva no razão enquanto Status == scheduled
+	PendingID string // id da reserva no livro-razão enquanto Status == scheduled
 	CreatedAt time.Time
 }
 

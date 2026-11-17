@@ -143,7 +143,7 @@ export function AppFrame({ children }: { children: ReactNode }) {
           <div className="mb-0.5 flex items-center gap-2 text-13 text-ink">
             <span className={cn('size-1.75 rounded-full', live ? 'bg-positive' : 'bg-control')} />
 
-            {live ? 'Razão ao vivo' : 'Reconectando ao razão…'}
+            {live ? 'Livro-razão ao vivo' : 'Reconectando ao livro-razão…'}
           </div>
 
           TigerBeetle · cluster 0

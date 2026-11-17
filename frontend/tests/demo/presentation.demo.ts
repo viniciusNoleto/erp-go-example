@@ -12,7 +12,7 @@ import { type APIRequestContext, expect, type Locator, type Page, test } from '@
  * pendências), lançamento chegando ao vivo de outra pessoa, venda com validação e recebimento, venda
  * recusada por falta de estoque, produto novo, compra com custo médio, pagamento em duas fases (agendar,
  * cancelar, confirmar), conta nova no plano, lançamentos (despesa, aporte, manual e um recusado pelo
- * razão), filtros do diário, razonete das contas, pendências resolvidas pela visão geral e de volta à apresentação.
+ * livro-razão), filtros do diário, razonete das contas, pendências resolvidas pela visão geral e de volta à apresentação.
  * Grava em 1440×900; no fim, o ffmpeg corta o começo em branco e gera `videos/apresentacao.mp4`.
  *
  *   npm run demo:video
@@ -220,8 +220,8 @@ test('vídeo de apresentação: todas as funcionalidades', async ({ browser, bas
     await page.goto('/');
     await expect(page.getByRole('heading', { name: 'GoMoney', level: 1 })).toBeVisible();
     await expect(page).toHaveTitle('Apresentação | GoMoney');
-    // O quadro do razão ao vivo carregado (o caixa da loja).
-    await expect(page.getByRole('complementary', { name: /razão da loja/ })).toContainText('Ateliê Pipa');
+    // O quadro do livro-razão ao vivo carregado (o caixa da loja).
+    await expect(page.getByRole('complementary', { name: /livro-razão da loja/ })).toContainText('Ateliê Pipa');
     openedAt = Date.now();
     // Conta pelo relógio da página, a partir da primeira pintura (onde o vídeo começa depois do corte).
     await page.waitForFunction(
@@ -301,7 +301,7 @@ test('vídeo de apresentação: todas as funcionalidades', async ({ browser, bas
     await a.pause(500);
 
     // A prévia mostra as duas partidas encadeadas e a margem.
-    await expect(drawer.getByText(/Margem de/)).toBeVisible();
+    await expect(drawer.getByText('Margem', { exact: true })).toBeVisible();
     await a.pause(2200);
 
     await a.click(drawer.getByRole('button', { name: 'Faturar venda' }), 300);
@@ -329,7 +329,7 @@ test('vídeo de apresentação: todas as funcionalidades', async ({ browser, bas
     await a.type(drawer.getByLabel('Quantidade do item 1'), '2');
     await a.pause(1200);
     await a.click(drawer.getByRole('button', { name: 'Faturar venda' }), 300);
-    await expect(scene('Recusado pelo razão')).toBeVisible();
+    await expect(scene('Recusado pelo livro-razão')).toBeVisible();
     await expect(row(NEW.refusedCustomer)).toHaveCount(0);
     await a.pause(4500);
     await clearStage();
@@ -370,7 +370,7 @@ test('vídeo de apresentação: todas as funcionalidades', async ({ browser, bas
     await a.type(drawer.getByLabel('Quantidade do item 2'), '24');
     await a.type(drawer.getByLabel('Custo unitário do item 2'), '18,40');
     await a.pause(500);
-    await expect(drawer.getByText(/Total de R\$/)).toBeVisible();
+    await expect(drawer.getByText('Total', { exact: true })).toBeVisible();
     await a.pause(2000);
 
     await a.click(drawer.getByRole('button', { name: 'Dar entrada' }), 300);
@@ -437,7 +437,7 @@ test('vídeo de apresentação: todas as funcionalidades', async ({ browser, bas
       await expect(drawer).toBeVisible();
     };
     const post = async (title: string) => {
-      await a.click(drawer.getByRole('button', { name: 'Lançar no razão' }), 300);
+      await a.click(drawer.getByRole('button', { name: 'Lançar no livro-razão' }), 300);
       await expect(scene(title)).toBeVisible();
       await a.pause(3800);
       await clearStage();
@@ -445,7 +445,7 @@ test('vídeo de apresentação: todas as funcionalidades', async ({ browser, bas
 
     // Despesa paga: débito na despesa, crédito no caixa.
     await open();
-    await a.click(drawer.getByRole('button', { name: 'Lançar no razão' }), 900);
+    await a.click(drawer.getByRole('button', { name: 'Lançar no livro-razão' }), 900);
     await expect(drawer.getByText('Escreva o histórico do lançamento.')).toBeVisible();
     await a.type(drawer.getByLabel('Histórico'), 'Conta de água');
     await a.type(drawer.getByLabel('Valor'), '187,40');
@@ -475,7 +475,7 @@ test('vídeo de apresentação: todas as funcionalidades', async ({ browser, bas
     await a.type(drawer.getByLabel('Histórico'), 'Reforma da fachada');
     await a.type(drawer.getByLabel('Valor'), '250000,00');
     await a.pause(1200);
-    await post('Recusado pelo razão');
+    await post('Recusado pelo livro-razão');
 
     // O diário filtrado por origem.
     const filter = page.getByRole('radiogroup', { name: 'Filtrar por origem' });

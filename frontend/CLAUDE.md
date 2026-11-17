@@ -13,6 +13,6 @@ As regras do front ficam em `../.claude/rules/frontend-*.md` e carregam sozinhas
 | `resources/*/models` | `frontend-resources-models.md` e `frontend-api-format.md` |
 | `resources/*/enums` | `frontend-resources-enums.md` |
 | `resources/*/services` | `frontend-resources-services.md` |
-| `resources/*/logics` | `frontend-resources-logic.md` (hook + componente; `usePostingMutation` para o que grava no razão) |
+| `resources/*/logics` | `frontend-resources-logic.md` (hook + componente; `usePostingMutation` para o que grava no livro-razão) |
 
 O visual segue o tema de `src/theme.ts` e os tokens de `src/tokens.ts` (o mesmo arquivo que o Tailwind lê). O único CSS é `src/styles/globals.css`.

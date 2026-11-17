@@ -3,7 +3,7 @@ package app
 import (
 	"time"
 
-	"razonete/internal/domain"
+	"gomoney/internal/domain"
 )
 
 // Este arquivo tem os "views" (ou DTOs): o formato em que os dados SAEM da

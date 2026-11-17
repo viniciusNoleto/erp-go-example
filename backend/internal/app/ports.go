@@ -11,7 +11,7 @@ import (
 	"context"
 	"time"
 
-	"razonete/internal/domain"
+	"gomoney/internal/domain"
 )
 
 // Este arquivo define as PORTAS: as interfaces de que a aplicação precisa.
@@ -23,14 +23,14 @@ import (
 // certos, e o main.go encaixa uma coisa na outra.
 //
 // O ganho: a aplicação depende de um contrato pequeno, não do TigerBeetle.
-// Trocar por um razão em memória num teste é só escrever outro struct.
+// Trocar por um livro-razão em memória num teste é só escrever outro struct.
 
 // Ledger é o livro-razão: guarda lançamentos e saldos.
 type Ledger interface {
 	// NewID gera um id único de 128 bits, ordenável no tempo.
 	NewID() string
 
-	// OpenAccounts cria as contas no razão. `at` zerado = agora.
+	// OpenAccounts cria as contas no livro-razão. `at` zerado = agora.
 	OpenAccounts(ctx context.Context, accounts []domain.Account, at time.Time) error
 
 	// Post grava as pernas de forma ATÔMICA: ou todas, ou nenhuma.

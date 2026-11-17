@@ -22,7 +22,7 @@ const (
 	CodeInvalid           Code = "invalid"            // dados de entrada ruins
 	CodeNotFound          Code = "not_found"          // registro não existe
 	CodeConflict          Code = "conflict"           // estado não permite a ação
-	CodeInsufficientFunds Code = "insufficient_funds" // o razão recusou: saldo insuficiente
+	CodeInsufficientFunds Code = "insufficient_funds" // o livro-razão recusou: saldo insuficiente
 	CodeInsufficientStock Code = "insufficient_stock" // não há unidades em estoque
 )
 

@@ -17,8 +17,8 @@ type FormDrawerProps = {
   busy?: boolean;
   /** Erro da API que não é de um campo (os dos campos aparecem em cada campo). */
   error?: string | null;
-  /** O resumo à esquerda do botão (total, margem). */
-  summary?: ReactNode;
+  /** O resumo à esquerda do botão (total, margem): um rótulo pequeno e o número. */
+  summary?: { label: string; value: string } | null;
   children: ReactNode;
 };
 
@@ -66,21 +66,41 @@ export function FormDrawer({ opened, title, onClose, onSubmit, submitLabel, busy
           </UtilsIf>
         </Stack>
 
+        {/*
+          O rodapé encosta nas bordas da gaveta (as margens negativas desfazem o
+          padding lg do Drawer) e fica no mesmo papel dela: só o filete de cima
+          o separa dos campos, sem caixa branca dentro da gaveta.
+        */}
         <Group
           justify="space-between"
           wrap="nowrap"
-          pt="md"
-          className="sticky bottom-0 border-t border-line bg-surface pb-1"
+          className="sticky bottom-0 -mx-6 -mb-6 border-t border-line bg-ground px-6 py-4"
         >
-          <Text
-            size="sm"
-            c="dimmed"
-          >
-            {summary}
-          </Text>
+          <div className="min-w-0">
+            <UtilsIf condition={summary}>
+              {() => (
+                <>
+                  <Text
+                    size="xs"
+                    c="dimmed"
+                  >
+                    {summary!.label}
+                  </Text>
+
+                  <Text
+                    fw={600}
+                    className="text-20 leading-tight tabular-nums"
+                  >
+                    {summary!.value}
+                  </Text>
+                </>
+              )}
+            </UtilsIf>
+          </div>
 
           <Button
             type="submit"
+            size="md"
             loading={busy}
           >
             {submitLabel}

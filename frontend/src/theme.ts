@@ -93,7 +93,7 @@ export const theme = createTheme({
   },
 });
 
-/** As variáveis que o Mantine usa para fundo, texto e bordas, no papel do razão. */
+/** As variáveis que o Mantine usa para fundo, texto e bordas, no papel do livro-razão. */
 export const resolver: CSSVariablesResolver = () => ({
   variables: {},
   light: {

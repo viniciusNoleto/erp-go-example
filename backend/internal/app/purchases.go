@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"razonete/internal/domain"
+	"gomoney/internal/domain"
 )
 
 type PurchaseInput struct {
@@ -66,7 +66,7 @@ func (s *Service) CreatePurchase(ctx context.Context, in PurchaseInput) (Purchas
 // SchedulePayment agenda o pagamento ao fornecedor — a PRIMEIRA FASE de um
 // lançamento em duas fases. O TigerBeetle grava uma transferência pendente:
 // o valor sai do "disponível" do caixa, mas ainda não do saldo efetivado.
-// Se não houver caixa suficiente, é o próprio razão que recusa.
+// Se não houver caixa suficiente, é o próprio livro-razão que recusa.
 func (s *Service) SchedulePayment(ctx context.Context, id int64) (PurchaseResult, error) {
 	return s.movePurchase(ctx, id, "payment_scheduled", "Pagamento agendado da compra nº %d — %s",
 		func(p *domain.Purchase, postingID string) (domain.Entry, error) {
@@ -108,7 +108,7 @@ func (s *Service) CancelPayment(ctx context.Context, id int64) (PurchaseResult, 
 }
 
 // movePurchase é o esqueleto comum dos três casos de uso acima: carrega a
-// compra travada, executa o `step` (que muda o estado e lança no razão),
+// compra travada, executa o `step` (que muda o estado e lança no livro-razão),
 // salva e anuncia. O que varia entra como FUNÇÃO — o mesmo que extrair um
 // hook genérico e passar um callback.
 func (s *Service) movePurchase(

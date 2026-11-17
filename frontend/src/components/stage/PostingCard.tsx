@@ -70,7 +70,7 @@ const NOTES: Record<EPostingScene, ReactNode> = {
         Reserva liberada.
       </strong>
 
-      {' O registro continua no razão: nada é apagado.'}
+      {' O registro continua no livro-razão: nada é apagado.'}
     </>
   ),
   [EPostingScene.EXPENSE]: (

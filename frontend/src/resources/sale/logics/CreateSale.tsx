@@ -104,7 +104,7 @@ export function CreateSaleLogicComponent({
       submitLabel="Faturar venda"
       busy={createSaleIsPending}
       error={createSaleError}
-      summary={total > 0 ? `Margem de ${percent((total - cost) / total)}` : null}
+      summary={total > 0 ? { label: 'Margem', value: percent((total - cost) / total) } : null}
       onSubmit={createSale}
     >
       <FormTextInput
@@ -122,7 +122,7 @@ export function CreateSaleLogicComponent({
       />
 
       <LedgerPostingPreview
-        title="O que será lançado no razão, de uma vez só"
+        title="O que será lançado no livro-razão, de uma vez só"
         className="col-span-12"
       >
         <LedgerLegPreview

@@ -2,7 +2,7 @@ import type { EPostingScene } from '@/resources/posting/enums/PostingScene';
 
 /**
  * Cada tipo de lançamento tem a sua cena no palco (o cartão que aparece no
- * canto quando algo é gravado no razão): um título e um "sinal" desenhado a
+ * canto quando algo é gravado no livro-razão): um título e um "sinal" desenhado a
  * pena ao fim do traço, como um guarda-livros marcaria o livro.
  *
  *  - double:  duplo sublinhado — na escrituração, o sinal de total fechado
@@ -35,5 +35,5 @@ export const SCENES: Record<`${EPostingScene}` | 'refused', StageSceneStyle> = {
   expense: { title: 'Despesa paga', mark: 'strike' },
   capital: { title: 'Aporte de capital', mark: 'rays' },
   manual: { title: 'Lançamento manual', mark: 'line' },
-  refused: { title: 'Recusado pelo razão', mark: 'line' },
+  refused: { title: 'Recusado pelo livro-razão', mark: 'line' },
 };

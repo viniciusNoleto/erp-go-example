@@ -81,7 +81,7 @@ export default function AccountsPage() {
               ),
             },
             {
-              content: () => 'Lendo os saldos no razão…',
+              content: () => 'Lendo os saldos no livro-razão…',
             },
           ]}
         />

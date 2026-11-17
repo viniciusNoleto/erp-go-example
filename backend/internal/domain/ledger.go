@@ -72,7 +72,7 @@ const (
 	PhaseVoid    Phase = "void"    // cancelamento de uma reserva
 )
 
-// Entry é um lançamento JÁ GRAVADO no razão, do jeito que o lemos de volta.
+// Entry é um lançamento JÁ GRAVADO no livro-razão, do jeito que o lemos de volta.
 // Um lançamento nunca é alterado nem apagado: corrige-se com outro lançamento.
 type Entry struct {
 	ID        string

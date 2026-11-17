@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 import { cn } from '@/utils/cn';
 
-/** O bloco "o que será lançado no razão" dentro da gaveta: uma ou mais LedgerLegPreview. */
+/** O bloco "o que será lançado no livro-razão" dentro da gaveta: uma ou mais LedgerLegPreview. */
 export function LedgerPostingPreview({ title, className, children }: { title: string; className?: string; children: ReactNode }) {
   return (
     <div className={cn('rounded-md bg-raised px-4 pt-3 pb-1', className)}>

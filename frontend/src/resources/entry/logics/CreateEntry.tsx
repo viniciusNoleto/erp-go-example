@@ -139,7 +139,7 @@ export function CreateEntryLogicComponent({
       opened={opened}
       title="Novo lançamento"
       onClose={onClose}
-      submitLabel="Lançar no razão"
+      submitLabel="Lançar no livro-razão"
       busy={createEntryIsPending}
       error={createEntryError}
       onSubmit={createEntry}
@@ -192,7 +192,7 @@ export function CreateEntryLogicComponent({
       />
 
       <LedgerPostingPreview
-        title="O que será lançado no razão"
+        title="O que será lançado no livro-razão"
         className="col-span-12"
       >
         <LedgerLegPreview

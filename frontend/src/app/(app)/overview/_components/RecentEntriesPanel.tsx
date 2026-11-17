@@ -19,7 +19,7 @@ import { day } from '@/utils/format';
 import { OVERVIEW_ROWS } from './DuesPanel';
 import { OverviewSkeletonRow } from './SkeletonRow';
 
-/** Os últimos lançamentos do razão, com o link para o diário completo. */
+/** Os últimos lançamentos do livro-razão, com o link para o diário completo. */
 export function OverviewRecentEntriesPanel() {
   const { fresh } = useStage();
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"razonete/internal/domain"
+	"gomoney/internal/domain"
 )
 
 // EntryInput é um lançamento avulso: aporte de capital, despesa ou manual.

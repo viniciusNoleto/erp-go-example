@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"razonete/internal/domain"
+	"gomoney/internal/domain"
 )
 
 // LineInput é uma linha vinda do formulário. As tags json servem para o
@@ -36,9 +36,9 @@ type SaleResult struct {
 //  5. se tudo deu certo, commit. Qualquer erro = rollback de tudo.
 //
 // SOBRE A CONSISTÊNCIA ENTRE OS DOIS BANCOS: Postgres e TigerBeetle não
-// compartilham transação. Lançamos no razão por último, com a transação do
-// Postgres ainda aberta; se o razão recusar (ex.: sem saldo), o rollback
-// desfaz o resto. Resta uma janela pequena: o razão aceita e o commit do
+// compartilham transação. Lançamos no livro-razão por último, com a transação do
+// Postgres ainda aberta; se o livro-razão recusar (ex.: sem saldo), o rollback
+// desfaz o resto. Resta uma janela pequena: o livro-razão aceita e o commit do
 // Postgres falha. Em produção fecha-se essa janela gravando a intenção antes
 // (padrão "outbox") e reenviando — o que é seguro porque os ids das pernas
 // tornam o lançamento idempotente (veja Service.stamp).

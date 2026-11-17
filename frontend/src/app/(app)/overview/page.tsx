@@ -30,7 +30,7 @@ import { OverviewResultPanel } from './_components/ResultPanel';
  *    um uma aba do gráfico;
  *  - ao lado, o resultado e a prova de que o balancete fecha;
  *  - embaixo, o que precisa ser feito (receber, agendar, confirmar), com o
- *    botão na própria linha, e os últimos lançamentos do razão.
+ *    botão na própria linha, e os últimos lançamentos do livro-razão.
  */
 export default function OverviewPage() {
   const {
@@ -103,7 +103,7 @@ export default function OverviewPage() {
               ),
             },
             {
-              content: () => 'Lendo os saldos no razão…',
+              content: () => 'Lendo os saldos no livro-razão…',
             },
           ]}
         />

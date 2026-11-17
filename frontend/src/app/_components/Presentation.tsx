@@ -18,7 +18,7 @@ import { startLenses } from './glass';
 import { LiveLedger } from './LiveLedger';
 import { Store } from './Store';
 
-/** As operações do ERP e as partidas que cada uma grava no razão. */
+/** As operações do ERP e as partidas que cada uma grava no livro-razão. */
 const OPERATIONS: { where: string; what: string; legs: ReactNode[] }[] = [
   {
     where: 'Vendas',
@@ -57,7 +57,7 @@ const step = (i: number) => ({ '--i': i }) as CSSProperties;
 
 /**
  * A página de apresentação do GoMoney: o que é, como funciona por dentro e o
- * razão da loja de demonstração ao vivo. É a única página com vidro líquido.
+ * livro-razão da loja de demonstração ao vivo. É a única página com vidro líquido.
  */
 export function Presentation() {
   const { data: overview } = useQuery({ queryKey: GET_OVERVIEW_KEY, queryFn: getOverviewService });
@@ -257,7 +257,7 @@ export function Presentation() {
 
             <div className="mt-8 flex flex-wrap justify-between gap-x-8 gap-y-4 border-t border-white/14 pt-5 text-14 text-night-soft">
               <span>
-                {`ERP de demonstração. ${overview ? `${overview.company}: ${plural(overview.accounts.length, 'conta', 'contas')} no razão.` : ''}`}
+                {`ERP de demonstração. ${overview ? `${overview.company}: ${plural(overview.accounts.length, 'conta', 'contas')} no livro-razão.` : ''}`}
               </span>
 
               <span>

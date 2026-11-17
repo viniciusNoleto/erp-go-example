@@ -29,7 +29,7 @@ import { JOURNAL_FILTERS } from './_components/filters';
 import { JournalPhaseStatus } from './_components/PhaseStatus';
 import { JournalSkeletonRows } from './_components/SkeletonRows';
 
-/** Quantas partidas o diário lê do razão. */
+/** Quantas partidas o diário lê do livro-razão. */
 const JOURNAL_LIMIT = 200;
 
 export default function JournalPage() {
@@ -41,7 +41,7 @@ export default function JournalPage() {
 }
 
 /**
- * O livro diário. A pergunta: o que entrou no razão, e de onde para onde?
+ * O livro diário. A pergunta: o que entrou no livro-razão, e de onde para onde?
  * Cada linha é uma partida: um débito e um crédito de mesmo valor.
  */
 function Journal() {
@@ -103,7 +103,7 @@ function Journal() {
               ),
             },
             {
-              content: () => 'Lendo o diário no razão…',
+              content: () => 'Lendo o diário no livro-razão…',
             },
           ]}
         />

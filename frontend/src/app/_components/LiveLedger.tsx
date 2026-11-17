@@ -13,7 +13,7 @@ import { day, moneyFull } from '@/utils/format';
 
 import { presentationClasses as c } from './classes';
 
-/** O quadro de vidro do topo: o razão da loja de demonstração, ao vivo. */
+/** O quadro de vidro do topo: o livro-razão da loja de demonstração, ao vivo. */
 export function LiveLedger({ style }: { style?: CSSProperties }) {
   const { data: overview, isError: overviewIsError } = useQuery({ queryKey: GET_OVERVIEW_KEY, queryFn: getOverviewService });
   const { data: lastEntries } = useQuery({
@@ -29,13 +29,13 @@ export function LiveLedger({ style }: { style?: CSSProperties }) {
     <aside
       className="glass px-7.5 pt-7 pb-6.5 max-sm:px-5 max-sm:py-5.5 motion-safe:animate-rise"
       style={style}
-      aria-label="O razão da loja de demonstração, agora"
+      aria-label="O livro-razão da loja de demonstração, agora"
     >
       <div className="flex items-baseline justify-between gap-3 text-14 text-night-soft">
         <span>
           <span className="mr-2 inline-block size-1.75 rounded-full bg-night-ok align-[1px]" />
 
-          Agora, no razão
+          Agora, no livro-razão
         </span>
 
         <span>
@@ -49,7 +49,7 @@ export function LiveLedger({ style }: { style?: CSSProperties }) {
             condition: overviewIsError,
             content: () => (
               <p className={c.company}>
-                O razão está fora do ar agora. Suba a API com make up.
+                O livro-razão está fora do ar agora. Suba a API com make up.
               </p>
             ),
           },
@@ -57,7 +57,7 @@ export function LiveLedger({ style }: { style?: CSSProperties }) {
             content: () => (
               <>
                 <p className={c.company}>
-                  {overview?.company ?? 'Lendo o razão…'}
+                  {overview?.company ?? 'Lendo o livro-razão…'}
                 </p>
 
                 <Figure

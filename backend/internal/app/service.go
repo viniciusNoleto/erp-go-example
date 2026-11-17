@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"razonete/internal/domain"
+	"gomoney/internal/domain"
 )
 
 // Service reúne os casos de uso. Os campos são as DEPENDÊNCIAS, recebidas de

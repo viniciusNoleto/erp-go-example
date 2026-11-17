@@ -31,7 +31,7 @@ const LOW_STOCK = 5;
 /**
  * Estoque. A pergunta: quanto tenho em mercadoria, e o que está acabando?
  * Embaixo, a prova: a soma dos produtos (Postgres) confere com a conta de
- * estoque no razão (TigerBeetle).
+ * estoque no livro-razão (TigerBeetle).
  */
 export default function InventoryPage() {
   const [createProductOpened, setCreateProductOpened] = useState(false);
@@ -51,7 +51,7 @@ export default function InventoryPage() {
   const value = products.reduce((sum, product) => sum + product.stockValueCents, 0);
   const ledger = accounts?.find((account) => account.id === EAccountId.INVENTORY)?.balanceCents;
   const low = products.filter((product) => product.stock <= LOW_STOCK);
-  // O cadastro e o razão contam o mesmo estoque por caminhos diferentes. A
+  // O cadastro e o livro-razão contam o mesmo estoque por caminhos diferentes. A
   // diferença, quando há, são os centavos que o custo médio perde ao arredondar.
   const drift = ledger === undefined ? 0 : ledger - value;
   // Arredondar o custo médio a cada entrada perde no máximo meio centavo por
@@ -300,7 +300,7 @@ export default function InventoryPage() {
                 className={s.proof}
               >
                 <strong>
-                  {matches ? 'Confere com o razão.' : 'Não confere com o razão.'}
+                  {matches ? 'Confere com o livro-razão.' : 'Não confere com o livro-razão.'}
                 </strong>
 
                 {` A soma dos produtos dá ${moneyFull(value)}; a conta 1103 Estoque de mercadorias tem ${moneyFull(ledger!)}.`}

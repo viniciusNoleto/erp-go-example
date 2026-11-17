@@ -30,7 +30,7 @@ type StageItem = {
 type StageApi = {
   /** Toca a animação de um lançamento gravado. */
   play: (posting: IPosting) => void;
-  /** Toca a animação de recusa (o razão ou o estoque disseram não). */
+  /** Toca a animação de recusa (o livro-razão ou o estoque disseram não). */
   refuse: (message: string) => void;
   /** Lançamentos recém-gravados: as tabelas destacam essas linhas. */
   fresh: ReadonlySet<string>;

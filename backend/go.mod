@@ -1,4 +1,4 @@
-module razonete
+module gomoney
 
 go 1.24
 

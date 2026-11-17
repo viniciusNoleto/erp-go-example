@@ -23,8 +23,8 @@ import (
 	// Import com APELIDO: o pacote se chama tigerbeetle_go; aqui vira `tb`.
 	tb "github.com/tigerbeetle/tigerbeetle-go"
 
-	"razonete/internal/app"
-	"razonete/internal/domain"
+	"gomoney/internal/app"
+	"gomoney/internal/domain"
 )
 
 // ledgerBRL identifica o "livro". Contas só transacionam com contas do mesmo
@@ -115,12 +115,12 @@ func (l *Ledger) OpenAccounts(_ context.Context, accounts []domain.Account, at t
 
 	results, err := l.client.CreateAccounts(batch)
 	if err != nil {
-		return fmt.Errorf("criando contas no razão: %w", err)
+		return fmt.Errorf("criando contas no livro-razão: %w", err)
 	}
 	for i, r := range results {
 		// AccountExists = já estava lá, idêntica. Criar é idempotente.
 		if r.Status != tb.AccountCreated && r.Status != tb.AccountExists {
-			return fmt.Errorf("razão recusou a conta %d: %s", accounts[i].ID, r.Status)
+			return fmt.Errorf("livro-razão recusou a conta %d: %s", accounts[i].ID, r.Status)
 		}
 	}
 	return nil
@@ -170,7 +170,7 @@ func (l *Ledger) Post(_ context.Context, legs []domain.Leg) ([]domain.Entry, err
 	if err != nil {
 		// Este `err` é falha de TRANSPORTE (cliente fechado, lote grande
 		// demais). Recusa de negócio vem em `results`, logo abaixo.
-		return nil, fmt.Errorf("enviando lançamentos ao razão: %w", err)
+		return nil, fmt.Errorf("enviando lançamentos ao livro-razão: %w", err)
 	}
 	// O banco devolve um resultado por transferência, na mesma ordem.
 	for i, r := range results {
@@ -187,7 +187,7 @@ func (l *Ledger) Post(_ context.Context, legs []domain.Leg) ([]domain.Entry, err
 	// Se alguma falhou por arrasto mas nenhuma trouxe o motivo, não seguimos.
 	for _, r := range results {
 		if r.Status == tb.TransferLinkedEventFailed {
-			return nil, fmt.Errorf("o razão desfez o lote encadeado")
+			return nil, fmt.Errorf("o livro-razão desfez o lote encadeado")
 		}
 	}
 
@@ -232,7 +232,7 @@ func (l *Ledger) Resolve(_ context.Context, r app.Resolution) (domain.Entry, err
 
 	results, err := l.client.CreateTransfers([]tb.Transfer{transfer})
 	if err != nil {
-		return domain.Entry{}, fmt.Errorf("resolvendo reserva no razão: %w", err)
+		return domain.Entry{}, fmt.Errorf("resolvendo reserva no livro-razão: %w", err)
 	}
 	for _, res := range results {
 		switch res.Status {
@@ -242,7 +242,7 @@ func (l *Ledger) Resolve(_ context.Context, r app.Resolution) (domain.Entry, err
 		case tb.TransferPendingTransferAlreadyVoided:
 			return domain.Entry{}, domain.Conflict("esta reserva já foi cancelada")
 		default:
-			return domain.Entry{}, fmt.Errorf("razão recusou a resolução da reserva: %s", res.Status)
+			return domain.Entry{}, fmt.Errorf("livro-razão recusou a resolução da reserva: %s", res.Status)
 		}
 	}
 
@@ -260,16 +260,16 @@ func refusal(status tb.CreateTransferStatus, leg domain.Leg) error {
 	case tb.TransferExceedsDebits:
 		// A conta CREDITADA tem a trava "créditos não excedem débitos".
 		return domain.InsufficientFunds(
-			"saldo insuficiente na conta %d: o razão recusou a saída de %s", leg.Credit, leg.Amount)
+			"saldo insuficiente na conta %d: o livro-razão recusou a saída de %s", leg.Credit, leg.Amount)
 	case tb.TransferExceedsCredits:
 		return domain.InsufficientFunds(
-			"saldo insuficiente na conta %d: o razão recusou a saída de %s", leg.Debit, leg.Amount)
+			"saldo insuficiente na conta %d: o livro-razão recusou a saída de %s", leg.Debit, leg.Amount)
 	case tb.TransferDebitAccountNotFound, tb.TransferCreditAccountNotFound:
-		return domain.NotFound("conta do lançamento não existe no razão")
+		return domain.NotFound("conta do lançamento não existe no livro-razão")
 	case tb.TransferAccountsMustBeDifferent:
 		return domain.Invalid("as contas de débito e crédito devem ser diferentes")
 	}
-	return fmt.Errorf("razão recusou o lançamento %s: %s", leg.Kind.Slug(), status)
+	return fmt.Errorf("livro-razão recusou o lançamento %s: %s", leg.Kind.Slug(), status)
 }
 
 // Balances busca o saldo de várias contas em uma única ida ao banco.
@@ -280,7 +280,7 @@ func (l *Ledger) Balances(_ context.Context, ids []domain.AccountID) (map[domain
 	}
 	accounts, err := l.client.LookupAccounts(lookup)
 	if err != nil {
-		return nil, fmt.Errorf("consultando saldos no razão: %w", err)
+		return nil, fmt.Errorf("consultando saldos no livro-razão: %w", err)
 	}
 	balances := make(map[domain.AccountID]domain.Balance, len(accounts))
 	for _, a := range accounts {
@@ -302,7 +302,7 @@ func (l *Ledger) Entries(_ context.Context, limit int) ([]domain.Entry, error) {
 		Flags:  tb.QueryFilterFlags{Reversed: true}.ToUint32(), // do mais novo ao mais antigo
 	})
 	if err != nil {
-		return nil, fmt.Errorf("consultando o diário no razão: %w", err)
+		return nil, fmt.Errorf("consultando o diário no livro-razão: %w", err)
 	}
 	return toEntries(transfers), nil
 }
@@ -311,7 +311,7 @@ func (l *Ledger) Entries(_ context.Context, limit int) ([]domain.Entry, error) {
 func (l *Ledger) AccountEntries(_ context.Context, id domain.AccountID, limit int) ([]domain.Entry, error) {
 	transfers, err := l.client.GetAccountTransfers(accountFilter(id, limit))
 	if err != nil {
-		return nil, fmt.Errorf("consultando a conta %d no razão: %w", id, err)
+		return nil, fmt.Errorf("consultando a conta %d no livro-razão: %w", id, err)
 	}
 	return toEntries(transfers), nil
 }
@@ -351,10 +351,10 @@ func accountFilter(id domain.AccountID, limit int) tb.AccountFilter {
 func (l *Ledger) lookup(ids []tb.Uint128) ([]domain.Entry, error) {
 	transfers, err := l.client.LookupTransfers(ids)
 	if err != nil {
-		return nil, fmt.Errorf("relendo lançamentos do razão: %w", err)
+		return nil, fmt.Errorf("relendo lançamentos do livro-razão: %w", err)
 	}
 	if len(transfers) != len(ids) {
-		return nil, fmt.Errorf("razão devolveu %d de %d lançamentos", len(transfers), len(ids))
+		return nil, fmt.Errorf("livro-razão devolveu %d de %d lançamentos", len(transfers), len(ids))
 	}
 	return toEntries(transfers), nil
 }

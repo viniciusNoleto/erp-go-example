@@ -2,7 +2,7 @@ import type { IAccountRef } from '@/resources/account/models/Account';
 import type { EEntryKind } from '../enums/EntryKind';
 import type { EEntryPhase } from '../enums/EntryPhase';
 
-/** Uma partida do razão: um débito e um crédito de mesmo valor. */
+/** Uma partida do livro-razão: um débito e um crédito de mesmo valor. */
 export interface IEntry {
   id: string;
   kind: EEntryKind;

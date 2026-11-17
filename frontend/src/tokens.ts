@@ -29,7 +29,7 @@ export const palettes = {
  * (bg-ground, border-line, text-muted, …).
  */
 export const colors = {
-  // O papel do razão e as superfícies.
+  // O papel do livro-razão e as superfícies.
   ground: '#f5f5f3',
   surface: '#ffffff',
   raised: '#f2f1ee',

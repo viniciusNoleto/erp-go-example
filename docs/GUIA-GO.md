@@ -69,7 +69,7 @@ Três coisas que mais estranham no começo:
 | Seeder | `app/seed.go` |
 | Broadcasting (Echo/Pusher) | `events.Broker` + SSE |
 
-A regra que organiza tudo: **quem usa define a interface**. O pacote `app` declara `Ledger` e `Store` (o que ele precisa); os pacotes `tigerbeetle` e `postgres` apenas têm os métodos certos. Por isso dá para testar os casos de uso com um razão falso em memória — um bom exercício para treinar.
+A regra que organiza tudo: **quem usa define a interface**. O pacote `app` declara `Ledger` e `Store` (o que ele precisa); os pacotes `tigerbeetle` e `postgres` apenas têm os métodos certos. Por isso dá para testar os casos de uso com um livro-razão falso em memória — um bom exercício para treinar.
 
 ## 4. TigerBeetle: o conceito e onde ele aparece no código
 
@@ -96,7 +96,7 @@ Em ordem de dificuldade. Cada um toca uma camada diferente.
 1. **Novo campo.** Adicione `Notes` à venda: `domain/sale.go` → `postgres/schema.sql` e `store.go` → `app/views.go` → formulário em `frontend/src/resources/sale/logics/CreateSale.tsx` (e o model em `resources/sale/models/Sale.ts`).
 2. **Novo teste.** Em `domain_test.go`, teste que `Sale.Receive()` falha na segunda chamada.
 3. **Nova regra.** Recuse vender abaixo do custo médio. Onde a regra deve morar? (No domínio.)
-4. **Razão falso.** Escreva um `type memoryLedger struct` que satisfaça `app.Ledger` e teste `CreateSale` sem banco nenhum.
+4. **Livro-razão falso.** Escreva um `type memoryLedger struct` que satisfaça `app.Ledger` e teste `CreateSale` sem banco nenhum.
 5. **Novo caso de uso.** Devolução de venda: quais são as pernas? (O inverso das duas da venda, encadeadas.)
 6. **Pagamento parcial.** `Resolve` passa `tb.AmountMax` para efetivar tudo; permita efetivar só uma parte da reserva.
-7. **Outbox.** Feche a janela de inconsistência descrita em `app/sales.go`: grave a intenção no Postgres, lance no razão depois e marque como feito.
+7. **Outbox.** Feche a janela de inconsistência descrita em `app/sales.go`: grave a intenção no Postgres, lance no livro-razão depois e marque como feito.

@@ -133,7 +133,7 @@ export function PurchasesCashStrip({ dueOpen }: { dueOpen: number }) {
                                     {`Faltam ${moneyFull(dueOpen - available)}.`}
                                   </strong>
 
-                                  {' O razão recusa a reserva que passar do disponível: o caixa não pode ficar negativo.'}
+                                  {' O livro-razão recusa a reserva que passar do disponível: o caixa não pode ficar negativo.'}
                                 </>
                               ),
                             },

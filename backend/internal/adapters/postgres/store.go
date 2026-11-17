@@ -14,8 +14,8 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"razonete/internal/app"
-	"razonete/internal/domain"
+	"gomoney/internal/app"
+	"gomoney/internal/domain"
 )
 
 // A diretiva abaixo manda o compilador EMBUTIR o arquivo schema.sql dentro do

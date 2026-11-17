@@ -29,11 +29,11 @@ import (
 	// binário, para TZ=America/Sao_Paulo funcionar numa imagem mínima.
 	_ "time/tzdata"
 
-	"razonete/internal/adapters/httpapi"
-	"razonete/internal/adapters/postgres"
-	"razonete/internal/adapters/tigerbeetle"
-	"razonete/internal/app"
-	"razonete/internal/platform/events"
+	"gomoney/internal/adapters/httpapi"
+	"gomoney/internal/adapters/postgres"
+	"gomoney/internal/adapters/tigerbeetle"
+	"gomoney/internal/app"
+	"gomoney/internal/platform/events"
 )
 
 func main() {
@@ -58,7 +58,7 @@ func run(log *slog.Logger) error {
 	// Configuração por variáveis de ambiente (o mesmo espírito do .env).
 	var (
 		httpAddr    = env("HTTP_ADDR", ":8080")
-		databaseURL = env("DATABASE_URL", "postgres://razonete:razonete@localhost:5433/razonete")
+		databaseURL = env("DATABASE_URL", "postgres://gomoney:gomoney@localhost:5433/gomoney")
 		tbAddresses = strings.Split(env("TB_ADDRESSES", "3000"), ",")
 		company     = env("COMPANY_NAME", "Ateliê Pipa Materiais Artísticos")
 	)

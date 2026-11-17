@@ -18,15 +18,15 @@ resources/purchase/logics/
 └── CancelPurchasePayment.tsx     botão de linha
 ```
 
-## Mutação que grava no razão → `usePostingMutation`
+## Mutação que grava no livro-razão → `usePostingMutation`
 
 Toda ação que gera lançamento (venda, compra, recebimento, pagamento, lançamento avulso) usa `usePostingMutation` (`components/stage/usePostingMutation.ts`) no lugar do `useMutation`. Ele devolve o próprio objeto do `useMutation` e acrescenta `postingError`:
 
 - sucesso → toca a cena no palco (que também invalida as consultas) e chama `onSettled`;
-- recusa do razão (`ApiError.refused`) → toca a cena de recusa e chama `onSettled`;
+- recusa do livro-razão (`ApiError.refused`) → toca a cena de recusa e chama `onSettled`;
 - outro erro → guarda a mensagem em `postingError` para a gaveta mostrar.
 
-Ação que não grava no razão (criar conta, criar produto) usa `useMutation` e invalida as queries no `onSuccess`.
+Ação que não grava no livro-razão (criar conta, criar produto) usa `useMutation` e invalida as queries no `onSuccess`.
 
 ## Padrão 1 — Ação de linha (sem formulário)
 

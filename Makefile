@@ -4,8 +4,8 @@ MAKEFLAGS += --no-print-directory
 
 APP_ENV ?= local
 COMPOSE := docker compose -f docker-compose.${APP_ENV}.yml
-WEB_CONTAINER := razonete-web
-API_CONTAINER := razonete-api
+WEB_CONTAINER := gomoney-web
+API_CONTAINER := gomoney-api
 
 f :=
 art:

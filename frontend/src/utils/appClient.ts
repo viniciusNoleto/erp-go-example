@@ -13,7 +13,7 @@ export class ApiError extends Error {
     super(message);
   }
 
-  /** O razão (ou o estoque) recusou: vira a animação de recusa no palco. */
+  /** O livro-razão (ou o estoque) recusou: vira a animação de recusa no palco. */
   get refused() {
     return this.code === 'insufficient_funds' || this.code === 'insufficient_stock';
   }
